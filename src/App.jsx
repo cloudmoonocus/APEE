@@ -34,8 +34,6 @@ export function App() {
 		function start() {
 			trackAni = new BMapGLLib.TrackAnimation(map, pl, {
 				overallView: true,
-				heading: 150,
-				tilt: 45,
 				duration: 20000,
 				delay: 300,
 			})
