@@ -25,6 +25,7 @@ export function App() {
 
 	// 渲染地图及轨迹
 	useEffect(() => {
+		setSpin(true)
 		const [map, trackAni] = generateMap(index, cancelLoading)
 		generatePoint(map, index)
 		setMapData(map)
