@@ -1,4 +1,6 @@
-export const data = [
+import { removeAdjacentDuplicates } from '../../../utils/removeAdjacentDuplicates'
+
+const _data = [
 	['05-5月-2023', '20:56:41.512', '39.931472', '119.554169'],
 	['05-5月-2023', '20:56:47.511', '39.931472', '119.554169'],
 	['05-5月-2023', '20:56:53.514', '39.931472', '119.554169'],
@@ -125,3 +127,5 @@ export const data = [
 	['05-5月-2023', '20:59:41.014', '39.931372', '119.554139'],
 	['05-5月-2023', '20:59:42.010', '39.931309', '119.554280'],
 ]
+
+export const data = removeAdjacentDuplicates(_data)
