@@ -6,16 +6,18 @@ import { generateMap } from './utils/generateMap'
 import { generatePoint } from './utils/generatePoint'
 import styled from 'styled-components'
 import { Spin } from 'antd'
+import { useParams, useNavigate } from 'react-router-dom'
+import path from './assets/data/path'
 
-export function App() {
-	const [index, setIndex] = useState(0)
+export function App(props) {
+	const { mapIndex } = useParams()
+	const navigate = useNavigate()
 	const [spin, setSpin] = useState(true)
 	const [mapData, setMapData] = useState(null)
 	const [trackData, setTrackData] = useState(null)
 
-	// 更改地图轨迹
-	function changeIndex(index) {
-		setIndex(index)
+	if (mapIndex > path.length || mapIndex < 1) {
+		window.location.href = '/'
 	}
 
 	// 取消加载
@@ -26,18 +28,18 @@ export function App() {
 	// 渲染地图及轨迹
 	useEffect(() => {
 		setSpin(true)
-		const [map, trackAni] = generateMap(index, cancelLoading)
-		generatePoint(map, index)
+		const [map, trackAni] = generateMap(mapIndex - 1, cancelLoading)
+		generatePoint(map, mapIndex - 1)
 		setMapData(map)
 		setTrackData(trackAni)
-	}, [index])
+	}, [mapIndex])
 
 	return (
 		<Loading>
 			<Spin size="large" tip="Loading" spinning={spin}>
 				<Style>
 					<div id="map"></div>
-					<Handle changeIndex={changeIndex}></Handle>
+					<Handle trackAni={trackData}></Handle>
 					<Logo></Logo>
 					<Member></Member>
 				</Style>

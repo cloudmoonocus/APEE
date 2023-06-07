@@ -1,13 +1,16 @@
 import { styled } from 'styled-components'
 import { Select, Space } from 'antd'
 import path from '../assets/data/path.js'
+import { useParams, useNavigate } from 'react-router-dom'
 
 export function Handle(props) {
-	const { changeIndex, trackAni } = props
+	const { mapIndex } = useParams()
+	const navigate = useNavigate()
+	const { trackAni } = props
 
 	// 更改地图轨迹
 	const handleChange = (value) => {
-		changeIndex(value)
+		navigate('/index/' + (value + 1))
 	}
 
 	// 生成地图选项
@@ -19,7 +22,7 @@ export function Handle(props) {
 	return (
 		<Style>
 			<Space>
-				<Select defaultValue={0} style={{ width: 200 }} onChange={handleChange} options={options} />
+				<Select defaultValue={mapIndex - 1} style={{ width: 200 }} onChange={handleChange} options={options} />
 			</Space>
 		</Style>
 	)

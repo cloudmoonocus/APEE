@@ -20,25 +20,38 @@ export function generateMap(index, cancelLoading) {
 	})
 
 	// 轨迹动画
-	const point = []
-	for (let i = 0; i < path[index].length; i++) {
-		point[i] = new BMapGL.Point(path[index][i].lng, path[index][i].lat)
+	// const point = []
+	// for (let i = 0; i < path[index].length; i++) {
+	// 	point[i] = new BMapGL.Point(path[index][i].lng, path[index][i].lat)
 
-		if ((i + 1) % 10 === 0 || i === path[index].length - 1) {
-			// 绘制当前累积的点位
-			const currentPoints = point.slice(i - 9, i + 1) // 提取当前累积的10个点位
-			const pl = new BMapGL.Polyline(currentPoints)
+	// 	if ((i + 1) % 10 === 0 || i === path[index].length - 1) {
+	// 		// 绘制当前累积的点位
+	// 		const currentPoints = point.slice(i - 9, i + 1) // 提取当前累积的10个点位
+	// 		const pl = new BMapGL.Polyline(currentPoints)
 
-			setTimeout(() => {
-				const trackAni = new BMapGLLib.TrackAnimation(map, pl, {
-					overallView: false,
-					duration: 5 * 1000,
-					delay: 300,
-				})
-				trackAni.start()
-			}, 3000 + (i / 10) * 5 * 1000) // 每10个点位绘制一次，延时时间根据绘制次数递增
+	// 		setTimeout(() => {
+	// 			const trackAni = new BMapGLLib.TrackAnimation(map, pl, {
+	// 				overallView: false,
+	// 				duration: 5 * 1000,
+	// 				delay: 300,
+	// 			})
+	// 			trackAni.start()
+	// 		}, 3000 + (i / 10) * 5 * 1000) // 每10个点位绘制一次，延时时间根据绘制次数递增
+	// 	}
+	// }
+
+	function drawPath(path) {
+		const point = []
+
+		for (let i = 0; i < path[index].length; i++) {
+			point.push(new BMapGL.Point(path[index][i].lng, path[index][i].lat))
 		}
+
+		const pl = new BMapGL.Polyline(point)
+		map.addOverlay(pl)
 	}
+
+	drawPath(path)
 
 	return [map, trackAni]
 }
