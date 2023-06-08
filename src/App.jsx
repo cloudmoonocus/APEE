@@ -6,15 +6,13 @@ import { generateMap } from './utils/generateMap'
 import { generatePoint } from './utils/generatePoint'
 import styled from 'styled-components'
 import { Spin } from 'antd'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import path from './assets/data/path'
 
-export function App(props) {
+export function App() {
 	const { mapIndex } = useParams()
-	const navigate = useNavigate()
 	const [spin, setSpin] = useState(true)
 	const [mapData, setMapData] = useState(null)
-	const [trackData, setTrackData] = useState(null)
 
 	if (mapIndex > path.length || mapIndex < 1) {
 		window.location.href = '/'
@@ -28,10 +26,9 @@ export function App(props) {
 	// 渲染地图及轨迹
 	useEffect(() => {
 		setSpin(true)
-		const [map, trackAni] = generateMap(mapIndex - 1, cancelLoading)
+		const map = generateMap(mapIndex - 1, cancelLoading)
 		generatePoint(map, mapIndex - 1)
 		setMapData(map)
-		setTrackData(trackAni)
 	}, [mapIndex])
 
 	return (
@@ -39,7 +36,7 @@ export function App(props) {
 			<Spin size="large" tip="Loading" spinning={spin}>
 				<Style>
 					<div id="map"></div>
-					<Handle trackAni={trackData}></Handle>
+					<Handle map={mapData}></Handle>
 					<Logo></Logo>
 					<Member></Member>
 				</Style>
@@ -55,6 +52,14 @@ const Style = styled.div`
 	#map {
 		width: 100%;
 		height: 100%;
+	}
+
+	.btn {
+		position: absolute;
+		z-index: 999;
+		right: 90px;
+		bottom: 20px;
+		height: 30px;
 	}
 `
 
