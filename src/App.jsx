@@ -36,7 +36,7 @@ export function App() {
 			<Spin size="large" tip="Loading" spinning={spin}>
 				<Style>
 					<div id="map"></div>
-					<Handle map={mapData}></Handle>
+					<Handle map={mapData} cancelLoading={cancelLoading}></Handle>
 					<Logo></Logo>
 					<Member></Member>
 				</Style>

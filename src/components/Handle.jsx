@@ -11,7 +11,7 @@ export function Handle(props) {
 	const [type, setType] = useState(params.get('type') === 'satellite' ? false : true)
 	const [text, setText] = useState(true)
 	const [icon, setIcon] = useState(true)
-	const { map } = props
+	const { map, cancelLoading } = props
 
 	// 更改地图轨迹
 	const handleChange = (value) => {
@@ -26,14 +26,15 @@ export function Handle(props) {
 
 	// 根据传入参数设置地图类型
 	useEffect(() => {
-		if (props.map) {
+		if (map) {
 			if (type) {
-				props.map.setMapType(BMAP_NORMAL_MAP)
+				map.setMapType(BMAP_NORMAL_MAP)
 			} else {
-				props.map.setMapType(BMAP_SATELLITE_MAP)
+				map.setMapType(BMAP_SATELLITE_MAP)
+				cancelLoading()
 			}
 		}
-	}, [props.map, type])
+	}, [map, type])
 
 	// 切换地图类型
 	function ButtonType() {
