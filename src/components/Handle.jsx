@@ -1,15 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { styled } from 'styled-components'
 import { Select, Space, Button } from 'antd'
 import path from '../assets/data/path.js'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 
 export function Handle(props) {
-	const [type, setType] = useState(true)
-	const [text, setText] = useState(true)
-	const [icon, setIcon] = useState(true)
 	const { mapIndex } = useParams()
 	const navigate = useNavigate()
+	const [params] = useSearchParams()
+	const [type, setType] = useState(params.get('type') === 'satellite' ? false : true)
+	const [text, setText] = useState(true)
+	const [icon, setIcon] = useState(true)
 	const { map } = props
 
 	// 更改地图轨迹
@@ -17,11 +18,22 @@ export function Handle(props) {
 		navigate('/index/' + (value + 1))
 	}
 
-	// 生成地图选项
+	// 生成地图轨迹选项
 	const options = []
 	for (let i = 0; i < path.length; i++) {
 		options.push({ value: i, label: `Map ${i + 1}` })
 	}
+
+	// 根据传入参数设置地图类型
+	useEffect(() => {
+		if (props.map) {
+			if (type) {
+				props.map.setMapType(BMAP_NORMAL_MAP)
+			} else {
+				props.map.setMapType(BMAP_SATELLITE_MAP)
+			}
+		}
+	}, [props.map, type])
 
 	// 切换地图类型
 	function ButtonType() {
